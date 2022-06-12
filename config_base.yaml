@@ -1,0 +1,15 @@
+normalize_type:
+output_dir: ./output
+input_files:
+  - path: path/to/npy
+    predict_shape:
+      - 3
+      - 2
+      - 2
+    normalize_type:
+  - path: path/to/npy
+    predict_shape:
+      - 3
+      - 2
+      - 2
+    normalize_type:
