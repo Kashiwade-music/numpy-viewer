@@ -1,4 +1,4 @@
-normalize_type: # optional
+normalize: # optional
   vmin: 0
   vmax: 1
 cmap: magma
@@ -8,13 +8,13 @@ input_files:
     predict_shape:
       - 1025
       - 2459
-    normalize_type:
+    normalize:
     histogram: true
   - path: ./relative/path/is/also/ok.npy
     predict_shape:
       - 1025
       - 2459
-    normalize_type:
+    normalize:
       vmin: 100
       vmax: 200
     histogram: true
