@@ -1,4 +1,6 @@
-normalize_type:
+normalize_type: # optional
+  vmin: 0
+  vmax: 1
 cmap: magma
 output_dir: ./output
 input_files:
@@ -13,4 +15,6 @@ input_files:
       - 1025
       - 2459
     normalize_type:
+      vmin: 100
+      vmax: 200
     histogram: true

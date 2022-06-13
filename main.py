@@ -31,8 +31,21 @@ def main():
             print(f'{cmdmarks.INFO}predict shape == actual shape. \n   (predict, actual) = ({tuple(input_file.predict_shape)}, {input_npy.shape}) : {os.path.basename(input_file.path)}')
         else:
             print(f'{cmdmarks.WARNING}predict shape != actual shape. \n   (predict, actual) = ({tuple(input_file.predict_shape)}, {input_npy.shape}) : {os.path.basename(input_file.path)}')
-        plot_ndarray(x=input_npy, file_basename=os.path.basename(input_file.path),
-                     output_dir_path=f'{config.output_dir}/{output_dir_name}', normalize_type="hoge", cmap=config.cmap, histogram=input_file.histogram)
+
+        if config.normalize is not None:
+            if input_file.normalize is not None:
+                plot_ndarray(x=input_npy, file_basename=os.path.basename(input_file.path), output_dir_path=f'{config.output_dir}/{output_dir_name}',
+                             cmap=config.cmap, histogram=input_file.histogram, normalize_vmin=input_file.normalize.vmin, normalize_vmax=input_file.normalize.vmax)
+            else:
+                plot_ndarray(x=input_npy, file_basename=os.path.basename(input_file.path), output_dir_path=f'{config.output_dir}/{output_dir_name}',
+                             cmap=config.cmap, histogram=input_file.histogram, normalize_vmin=config.normalize.vmin, normalize_vmax=config.normalize.vmax)
+        else:
+            if input_file.normalize is not None:
+                plot_ndarray(x=input_npy, file_basename=os.path.basename(input_file.path), output_dir_path=f'{config.output_dir}/{output_dir_name}',
+                             cmap=config.cmap, histogram=input_file.histogram, normalize_vmin=input_file.normalize.vmin, normalize_vmax=input_file.normalize.vmax)
+            else:
+                plot_ndarray(x=input_npy, file_basename=os.path.basename(input_file.path), output_dir_path=f'{config.output_dir}/{output_dir_name}',
+                             cmap=config.cmap, histogram=input_file.histogram)
 
 
 if __name__ == '__main__':
