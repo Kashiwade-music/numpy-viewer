@@ -1,15 +1,16 @@
 normalize_type:
+cmap: magma
 output_dir: ./output
 input_files:
-  - path: path/to/npy
+  - path: /path/to/your/npy/file.npy
     predict_shape:
-      - 3
-      - 2
-      - 2
+      - 1025
+      - 2459
     normalize_type:
-  - path: path/to/npy
+    histogram: true
+  - path: ./relative/path/is/also/ok.npy
     predict_shape:
-      - 3
-      - 2
-      - 2
+      - 1025
+      - 2459
     normalize_type:
+    histogram: true
