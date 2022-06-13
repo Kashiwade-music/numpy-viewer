@@ -17,3 +17,9 @@ ndarray_3d[0] = S
 ndarray_3d[1] = Sdb
 ndarray_3d[2] = Spower
 np.save('./test_npy/stay_alive_test_3d_concat', ndarray_3d)
+
+ndarray_4d = np.empty((3, 3, S.shape[0], S.shape[1]))
+ndarray_4d[0] = ndarray_3d
+ndarray_4d[1] = ndarray_3d
+ndarray_4d[2] = ndarray_3d
+np.save('./test_npy/stay_alive_test_4d_concat', ndarray_4d)

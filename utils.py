@@ -1,5 +1,6 @@
 import matplotlib
 import os
+from tqdm import tqdm
 from matplotlib import gridspec
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -59,6 +60,15 @@ def plot_ndarray(x: np.ndarray, file_basename: str, output_dir_path, normalize_t
     elif len(x.shape) == 3:
         new_out_dir_path = f'{output_dir_path}/{os.path.splitext(os.path.basename(file_basename))[0]}'
         os.mkdir(new_out_dir_path)
-        for idx, input_ndarray in enumerate(x):
+        for idx, input_ndarray in enumerate(tqdm(x)):
             plot_2d_ndarray(input_ndarray, file_basename=f'{idx:03}-{file_basename}', output_dir_path=new_out_dir_path,
                             normalize_type=normalize_type, cmap=cmap, histogram=histogram)
+    elif len(x.shape) == 4:
+        new_out_dir_path = f'{output_dir_path}/{os.path.splitext(os.path.basename(file_basename))[0]}'
+        os.mkdir(new_out_dir_path)
+        for idx in range(len(x.shape) - 1):
+            os.mkdir(f'{new_out_dir_path}/{idx:03}')
+        for idx, input_ndarray in enumerate(tqdm(x)):
+            for idx_2, input_ndarray_2 in enumerate(tqdm(input_ndarray, leave=False)):
+                plot_2d_ndarray(input_ndarray_2, file_basename=f'{idx_2:03}-{file_basename}', output_dir_path=f'{new_out_dir_path}/{idx:03}',
+                                normalize_type=normalize_type, cmap=cmap, histogram=histogram)
