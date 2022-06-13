@@ -1,3 +1,7 @@
+import matplotlib
+from matplotlib import gridspec
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 import yaml
 import matplotlib.pyplot as plt
 import numpy as np
@@ -30,10 +34,23 @@ def load_yaml(file):
     return ed
 
 
-def plot_ndarray(x: np.ndarray, file_path: str, normalize_type: str, cmap: str):
-    fig = plt.figure()
+def plot_2d_ndarray(x: np.ndarray, file_path: str, normalize_type: str, cmap: str, histgram: bool):
+    fig: Figure = plt.figure(tight_layout=True)
+    fig.suptitle(f'shape = {x.shape} : min = {x.min():.3f} : MAX = {x.max():.3f}')
+
+    gs = gridspec.GridSpec(1, 2, width_ratios=(5, 3))  # *1
+    ax1: Axes = fig.add_subplot(gs[0, 0]) if histgram else fig.add_subplot(1, 1, 1)
+    ax2: Axes = fig.add_subplot(gs[0, 1]) if histgram else None
+    pcm = ax1.pcolormesh(x, cmap=cmap)
+    fig.colorbar(pcm, ax=ax1)
+
+    if histgram:
+        ax2.hist(x.flatten())
+        fig.set_size_inches(12, 6)
+
+    fig.savefig(file_path)
+
+
+def plot_ndarray(x: np.ndarray, file_path: str, normalize_type: str, cmap: str, histgram: bool):
     if len(x.shape) == 2:
-        plt.pcolormesh(x, cmap=cmap)
-        plt.colorbar()
-        plt.tight_layout()
-        fig.savefig(file_path)
+        plot_2d_ndarray(x, file_path=file_path, normalize_type=normalize_type, cmap=cmap, histgram=histgram)
