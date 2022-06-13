@@ -1,5 +1,6 @@
 import numpy as np
 import argparse
+import shutil
 import os
 import datetime
 from utils import cmdmarks, load_yaml, plot_ndarray
@@ -24,6 +25,8 @@ def main():
     output_dir_name = f'{dt.strftime("%Y%m%d%H%M%S")}'
     os.mkdir(f'{config.output_dir}/{output_dir_name}')
     print(f'{cmdmarks.INFO}output dir name is {config.output_dir}/{output_dir_name}')
+
+    shutil.copyfile(f'{args.config}', f'{config.output_dir}/{output_dir_name}/config.yaml')
 
     for input_file in config.input_files:
         input_npy: np.ndarray = np.load(input_file.path)

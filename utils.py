@@ -49,7 +49,7 @@ def plot_2d_ndarray(x: np.ndarray, file_basename: str, output_dir_path, cmap: st
     fig.colorbar(pcm, ax=ax1)
 
     if histogram:
-        ax2.hist(x.flatten())
+        ax2.hist(x.flatten(), range=(normalize_vmin, normalize_vmax), bins=20) if normalize_vmin is not None else ax2.hist(x.flatten(), bins=20)
         fig.set_size_inches(12, 6)
 
     fig.savefig(f'{output_dir_path}/{os.path.splitext(os.path.basename(file_basename))[0]}')
