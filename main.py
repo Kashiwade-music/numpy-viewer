@@ -31,8 +31,8 @@ def main():
             print(f'{cmdmarks.INFO}predict shape == actual shape. \n   (predict, actual) = ({tuple(input_file.predict_shape)}, {input_npy.shape}) : {os.path.basename(input_file.path)}')
         else:
             print(f'{cmdmarks.WARNING}predict shape != actual shape. \n   (predict, actual) = ({tuple(input_file.predict_shape)}, {input_npy.shape}) : {os.path.basename(input_file.path)}')
-        plot_ndarray(input_npy, f'{config.output_dir}/{output_dir_name}/{os.path.basename(input_file.path)}.png', 
-                     "hoge", config.cmap, input_file.histogram)
+        plot_ndarray(x=input_npy, file_basename=os.path.basename(input_file.path),
+                     output_dir_path=f'{config.output_dir}/{output_dir_name}', normalize_type="hoge", cmap=config.cmap, histogram=input_file.histogram)
 
 
 if __name__ == '__main__':

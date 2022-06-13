@@ -1,4 +1,5 @@
 import matplotlib
+import os
 from matplotlib import gridspec
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -34,23 +35,30 @@ def load_yaml(file):
     return ed
 
 
-def plot_2d_ndarray(x: np.ndarray, file_path: str, normalize_type: str, cmap: str, histgram: bool):
+def plot_2d_ndarray(x: np.ndarray, file_basename: str, output_dir_path, normalize_type: str, cmap: str, histogram: bool):
     fig: Figure = plt.figure(tight_layout=True)
     fig.suptitle(f'shape = {x.shape} : min = {x.min():.3f} : MAX = {x.max():.3f}')
 
     gs = gridspec.GridSpec(1, 2, width_ratios=(5, 3))  # *1
-    ax1: Axes = fig.add_subplot(gs[0, 0]) if histgram else fig.add_subplot(1, 1, 1)
-    ax2: Axes = fig.add_subplot(gs[0, 1]) if histgram else None
+    ax1: Axes = fig.add_subplot(gs[0, 0]) if histogram else fig.add_subplot(1, 1, 1)
+    ax2: Axes = fig.add_subplot(gs[0, 1]) if histogram else None
     pcm = ax1.pcolormesh(x, cmap=cmap)
     fig.colorbar(pcm, ax=ax1)
 
-    if histgram:
+    if histogram:
         ax2.hist(x.flatten())
         fig.set_size_inches(12, 6)
 
-    fig.savefig(file_path)
+    fig.savefig(f'{output_dir_path}/{os.path.splitext(os.path.basename(file_basename))[0]}')
 
 
-def plot_ndarray(x: np.ndarray, file_path: str, normalize_type: str, cmap: str, histgram: bool):
+def plot_ndarray(x: np.ndarray, file_basename: str, output_dir_path, normalize_type: str, cmap: str, histogram: bool):
     if len(x.shape) == 2:
-        plot_2d_ndarray(x, file_path=file_path, normalize_type=normalize_type, cmap=cmap, histgram=histgram)
+        plot_2d_ndarray(x, file_basename=file_basename, output_dir_path=output_dir_path,
+                        normalize_type=normalize_type, cmap=cmap, histogram=histogram)
+    elif len(x.shape) == 3:
+        new_out_dir_path = f'{output_dir_path}/{os.path.splitext(os.path.basename(file_basename))[0]}'
+        os.mkdir(new_out_dir_path)
+        for idx, input_ndarray in enumerate(x):
+            plot_2d_ndarray(input_ndarray, file_basename=f'{idx:03}-{file_basename}', output_dir_path=new_out_dir_path,
+                            normalize_type=normalize_type, cmap=cmap, histogram=histogram)

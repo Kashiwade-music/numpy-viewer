@@ -11,3 +11,9 @@ Sdb = librosa.amplitude_to_db(S, ref=np.max)
 np.save('./test_npy/stay_alive_test_db', Sdb)
 Spower = librosa.db_to_power(Sdb)
 np.save('./test_npy/stay_alive_test_power', Spower)
+
+ndarray_3d = np.empty((3, S.shape[0], S.shape[1]))
+ndarray_3d[0] = S
+ndarray_3d[1] = Sdb
+ndarray_3d[2] = Spower
+np.save('./test_npy/stay_alive_test_3d_concat', ndarray_3d)
